@@ -1,7 +1,15 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\SFAccountingSystem",
+    "\\SFAccountingSystem\\SFAccountingSystem",
+    "\\SFAccountingSystem\\SFAccountingSystem\\Controllers",
+    "\\SFAccountingSystem\\SFAccountingSystem\\Models",
+    "\\SFAccountingSystem\\SFAccountingSystem\\Properties",
+    "\\SFAccountingSystem\\SFAccountingSystem\\Views",
+    "\\SFAccountingSystem\\SFAccountingSystem\\Views\\Home",
+    "\\SFAccountingSystem\\SFAccountingSystem\\wwwroot"
   ],
-  "SelectedNode": "\\C:\\Users\\Fernando\\OneDrive\\Repositories\\Visual Studio C#\\SFAccountingSystem",
+  "SelectedNode": "\\SFAccountingSystem\\SFAccountingSystem.sln",
   "PreviewInSolutionExplorer": false
 }
