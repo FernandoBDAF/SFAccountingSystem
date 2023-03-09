@@ -13,6 +13,12 @@ namespace SFAccountingSystem.Controllers
 			_logger = logger;
 		}
 
+		//public readonly DataContext _dataContext;
+		//public HomeController(DataContext dataContext)
+		//{
+		//	_dataContext = dataContext;
+		//}
+
 		public IActionResult Index()
 		{
 			return View();

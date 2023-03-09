@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using SFAccountingSystem;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<DataContext>(option =>
+	option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+	o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
 var app = builder.Build();
 
