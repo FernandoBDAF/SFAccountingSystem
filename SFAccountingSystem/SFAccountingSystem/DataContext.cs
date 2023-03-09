@@ -10,7 +10,16 @@ namespace SFAccountingSystem
 		{
 		}
 
-		public DbSet<Intermediation> Intermediation { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) // nao tinha anotado
+        {
+            modelBuilder
+                .Entity<RecordOFX>() //classe a ser ajustado o decimal
+                .Property(e => e.Value)
+                .HasPrecision(18, 2);
+            base.OnModelCreating(modelBuilder); // todo codigo acima disso
+        }
+
+        public DbSet<Intermediation> Intermediation { get; set; }
 
 		public DbSet<RecordOFX> RecordOFX { get; set; }
 

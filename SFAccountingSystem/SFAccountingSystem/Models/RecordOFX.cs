@@ -5,7 +5,7 @@ namespace SFAccountingSystem.Models
 {
 	public class RecordOFX : BaseModel
 	{
-		public DateOnly Date { get; set; }
+		public DateTime Date { get; set; }
 
 		public string? Details { get; set; }
 
