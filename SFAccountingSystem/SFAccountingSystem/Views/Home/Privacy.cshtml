@@ -1,6 +1,86 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Project Framework";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<body style="background-color: black; color: white;">
+
+<div class="container">
+    <h1 class="mt-5">@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="mt-5">Main Inputs</h3>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="mt-4">Users</h5>
+        <p>CRUD system to maintain the database.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="mt-4">Bank Statements</h5>
+        <p>Import OFX files, list and register bank transactions (inform groups and subgroups as well as 
+            any other necessary information such as users).</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="mt-5">Work Environments</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="mt-4">Invoices</h5>
+        <p>We'll have agency operations which are ready to be attached to an invoice, but we need some 
+            way to work with each group of transactions that form an intermediation operation (list of 
+            OFX records). Once finished, they will behave the same way as the agency operations, which 
+            are explained as follows:</p>
+        <ul>
+            <li>All transactions should be listed as agency or intermediation.</li>
+            <li>Show the value, client, and any other necessary information.</li>
+            <li>Provide an option to fill in the invoice details and attach a PDF file.</li>
+            <li>The intermediations have a button that directs them to a new screen which lists 
+                their OFX records and allows for editing, including:</li>
+            <ol>
+                <li>Adding or removing records while it is not closed.</li>
+                <li>Informing a user who will be linked to that intermediation operation.</li>
+                <li>A Close button - after it is closed, it will behave as an agency transaction.</li>
+            </ol>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="mt-4">Expenses</h5>
+        <p>List expenses with filters for date, groups, subgroups, and allow for registering a prediction 
+            for future expenses with their deadlines.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="mt-4">Shareholders</h5>
+        <p>A general list of all transactions of each shareholder as a financial result for the period.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="mt-5">Dashboards</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <p class="mt-4">This is the main goal of the project: building and exporting a final balance sheet as an 
+            Excel file. I'll be listing in more detail what we should do here soon.</p>
+    </div>
+</div>
+</body>
