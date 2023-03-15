@@ -15,7 +15,9 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="Entity">Entity</label>
-                    <select class="form-control" id="Entity" asp-for="Entity" asp-items="ViewBag.Select.Select1" required/>
+                    <select class="form-control" id="Entity" asp-for="Entity" asp-items="ViewBag.Select.Select1" required>
+                        <option></option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="CpfCnpj">CPF or CNPJ</label>
@@ -23,7 +25,9 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="Type">Type</label>
-                    <select class="form-control" id="Type" asp-for="Type" asp-items="ViewBag.Select.Select2" required/>
+                    <select class="form-control" id="Type" asp-for="Type" asp-items="ViewBag.Select.Select2" required>
+                        <option></option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <input class="btn btn-success w-100" type="submit" value="Save" />
