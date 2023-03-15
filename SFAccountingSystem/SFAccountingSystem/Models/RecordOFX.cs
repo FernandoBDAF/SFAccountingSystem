@@ -36,6 +36,9 @@ namespace SFAccountingSystem.Models
 
 		[ForeignKey("RecordOFXSubGroup")]
 		public int? SubGroupId { get; set; }
-		public virtual RecordOFXSubGroup RecordOFXSubGroup { get; set; }
+		public virtual RecordOFXSubGroup RecordOFXSubGroup
+		{
+			get; set;  //nao deveria aqui ter o parent tambem, o sub do sub?
+		}
 	}
 }

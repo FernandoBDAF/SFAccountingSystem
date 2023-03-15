@@ -8,7 +8,7 @@ namespace SFAccountingSystem.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger) //todos precisam ter logger, pra que serve? data context so  injeto onde for acessar o data base ne?
 		{
 			_logger = logger;
 		}

@@ -1,0 +1,34 @@
+﻿@model User
+
+@{
+	ViewData["Title"] = "Register a User";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mb-4 text-center">Register a new user</h1>
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label" for="Name">Name</label>
+                    <input class="form-control" id="Name" asp-for="Name" required/>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Entity">Entity</label>
+                    <select class="form-control" id="Entity" asp-for="Entity" asp-items="ViewBag.Select.Select1" required/>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="CpfCnpj">CPF or CNPJ</label>
+                    <input class="form-control" id="CpfCnpj" asp-for="CpfCnpj" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Type">Type</label>
+                    <select class="form-control" id="Type" asp-for="Type" asp-items="ViewBag.Select.Select2" required/>
+                </div>
+                <div class="mb-3">
+                    <input class="btn btn-success w-100" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

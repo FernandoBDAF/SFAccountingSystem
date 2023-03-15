@@ -4,11 +4,11 @@ using SFAccountingSystem.Enums;
 
 namespace SFAccountingSystem.Controllers
 {
-    public class RecordOFXSubGroup : Controller
+    public class RecordOFXSubGroupController : Controller
     {
         public IActionResult Index()
         {
-            ViewBag.Groups = new SelectList(Enum.GetValues(typeof(RecordOFXGroup))
+            ViewBag.Groups = new SelectList(Enum.GetValues(typeof(RecordOFXGroup)) //nao entendi onde o enum helper foi chamado
                                                 .Cast<RecordOFXGroup>()
                                                 .Select(x => new
                                                 {
