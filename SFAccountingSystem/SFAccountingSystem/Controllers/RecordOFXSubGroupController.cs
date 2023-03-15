@@ -8,13 +8,17 @@ namespace SFAccountingSystem.Controllers
     {
         public IActionResult Index()
         {
-            ViewBag.Groups = new SelectList(Enum.GetValues(typeof(RecordOFXGroup)) //nao entendi onde o enum helper foi chamado
+            //nao entendi onde o enum helper foi chamado
+
+            var list = Enum.GetValues(typeof(RecordOFXGroup))
                                                 .Cast<RecordOFXGroup>()
                                                 .Select(x => new
                                                 {
                                                     DisplayName = x.ToName<RecordOFXGroup>(),
                                                     Id = (int)x
-                                                }), "Id", "DisplayName");
+                                                });
+
+            ViewBag.Groups = new SelectList(list, "Id", "DisplayName");
 
 
             return View();

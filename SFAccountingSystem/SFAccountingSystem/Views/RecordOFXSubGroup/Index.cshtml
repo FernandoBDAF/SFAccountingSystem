@@ -1,9 +1,15 @@
-﻿
+﻿@{
+    var lab = ViewBag.Groups;
+}
 
 <form method="post">
     <div class="mb-3">
         <label class="form-label" for="Entity">Entity</label>
-        <select class="form-control" id="Entity" asp-items="ViewBag.Groups" required/>
+
+        <select class="form-control" id="Entity" asp-items="ViewBag.Groups" required>
+            <option></option>
+        </select>
+
     </div>
 </form>
 
