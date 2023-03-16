@@ -19,6 +19,6 @@ namespace SFAccountingSystem.Models
 		public int? ParentId { get; set; }
 		public virtual RecordOFXSubGroup Parent { get; set; }
 
-		public virtual IEnumerable<RecordOFXSubGroup> ChildRecordsOFXes { get; set; } = new HashSet<RecordOFXSubGroup>(); //essa eh uma relacao dele com ele mesmo, tipo um sub do sub, eh possivel ir uma camada abaixo pra sub do sub do sub?
+		public virtual IEnumerable<RecordOFXSubGroup> ChildRecordsOFXes { get; set; } = new HashSet<RecordOFXSubGroup>();
 	}
 }

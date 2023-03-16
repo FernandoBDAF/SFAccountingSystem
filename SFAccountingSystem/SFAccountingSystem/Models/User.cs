@@ -11,7 +11,7 @@ namespace SFAccountingSystem.Models
 		[Required]
 		public UserEntity Entity { get; set; }
 
-		public string? CpfCnpj { get; set; } //melhor colocar int ?
+		public string? CpfCnpj { get; set; }
 
 		[Required]
 		public UserType Type { get; set; }
