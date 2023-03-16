@@ -1,5 +1,4 @@
-﻿@using SFAccountingSystem.Enums;
-@model ICollection<User>
+﻿@model ICollection<User>
 @{
     ViewData["Title"] = "Users";
 }
@@ -31,7 +30,9 @@
                             <td>@(user.Type.ToName<UserType>())</td>
                             <td>
                                 <a class="btn btn-secondary" href="/User/Update/@user.Id">Edit</a>
-                                <a class="btn btn-danger" onclick="return confirm('Are you ready ?')" href="/User/Delete/@user.Id">Delete</a>
+                                @*<a class="btn btn-danger" onclick="return confirm('Do you really want to DELETE this entry?')" href="/User/Delete/@user.Id">Delete</a>*@
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/User/Delete/@user.Id">Delete</button>
+                                @*repensar como organizar esse arquivo ate para poder reutilizar os scripts de confirmacao de delecao em outros arquivos*@
                             </td>
                         </tr>
                     }
@@ -40,3 +41,38 @@
         </div>
     </div>
 </div>
+
+
+@*repensar como organizar esse arquivo ate para poder reutilizar os scripts de confirmacao de delecao em outros arquivos*@
+
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Do you really want to DELETE this entry?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
+    var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+    deleteConfirmationModal.addEventListener('show.bs.modal', function(event) {
+      var button = event.relatedTarget;
+      var deleteUrl = button.getAttribute('data-delete-url');
+      confirmDeleteBtn.setAttribute('href', deleteUrl);
+    });
+  });
+</script>

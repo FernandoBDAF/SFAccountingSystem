@@ -9,11 +9,11 @@ namespace SFAccountingSystem.Controllers
 {
     public class UserController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<UserController> _logger;
 
         public readonly DataContext _dataContext;
 
-        public UserController(ILogger<HomeController> logger, DataContext dataContext)
+        public UserController(ILogger<UserController> logger, DataContext dataContext)
         {
             _logger = logger;
             _dataContext = dataContext;
@@ -27,7 +27,7 @@ namespace SFAccountingSystem.Controllers
 
         public IActionResult Create()
         {
-            SelectList select1 = new SelectList(Enum.GetValues(typeof(UserEntity))
+            SelectList select1 = new(Enum.GetValues(typeof(UserEntity))
                                                 .Cast<UserEntity>()
                                                 .Select(x => new
                                                 {
@@ -35,7 +35,7 @@ namespace SFAccountingSystem.Controllers
                                                     Id = (int)x
                                                 }), "Id", "DisplayName");
 
-            SelectList select2 = new SelectList(Enum.GetValues(typeof(UserType))
+            SelectList select2 = new(Enum.GetValues(typeof(UserType))
                                                 .Cast<UserType>()
                                                 .Select(x => new
                                                 {
@@ -68,7 +68,7 @@ namespace SFAccountingSystem.Controllers
 
         public async Task<IActionResult> Update(int Id)
         {
-            SelectList select1 = new SelectList(Enum.GetValues(typeof(UserEntity))
+            SelectList select1 = new(Enum.GetValues(typeof(UserEntity))
                                                 .Cast<UserEntity>()
                                                 .Select(x => new
                                                 {
@@ -76,7 +76,7 @@ namespace SFAccountingSystem.Controllers
                                                     Id = (int)x
                                                 }), "Id", "DisplayName");
 
-            SelectList select2 = new SelectList(Enum.GetValues(typeof(UserType))
+            SelectList select2 = new(Enum.GetValues(typeof(UserType))
                                                 .Cast<UserType>()
                                                 .Select(x => new
                                                 {

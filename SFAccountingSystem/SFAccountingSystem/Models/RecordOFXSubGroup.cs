@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SFAccountingSystem.Models
 {
-	public class RecordOFXSubGroup : BaseModel
+	public class RecordOFXSubGroup : BaseModel //faltou required em algumas propriedades
 	{
 		public RecordOFXGroup Group { get; set; }
 

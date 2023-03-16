@@ -1,5 +1,35 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model RecordOFXSubGroup
+
 @{
+    ViewData["Title"] = "Register a Subgroup";
 }
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mb-4 text-center">Edit the subgroup</h1>
+            <form method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label class="form-label" for="Group">Group</label>
+                    <select class="form-control" id="Group" asp-for="Group" asp-items="ViewBag.Groups" required>
+                        <option></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Description">Description</label>
+                    <input class="form-control" id="Description" asp-for="Description" required/>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="ParentId">ParentId</label>
+                    <input class="form-control" id="ParentId" asp-for="ParentId" />
+                </div>
+                <div class="mb-3">
+                    <input class="btn btn-success w-100" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

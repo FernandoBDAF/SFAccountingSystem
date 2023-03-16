@@ -19,13 +19,13 @@ namespace SFAccountingSystem.Models
 
         [ForeignKey("Intermediation")]
         public int? IntermediationId { get; set; }
-        public virtual Intermediation Intermediation { get; set; }
+        public virtual Intermediation? Intermediation { get; set; }
 
 
 
         [ForeignKey("User")]
         public int? UserId { get; set; }
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
 
 
 
@@ -36,6 +36,6 @@ namespace SFAccountingSystem.Models
 
         [ForeignKey("RecordOFXSubGroup")]
         public int? SubGroupId { get; set; }
-        public virtual RecordOFXSubGroup RecordOFXSubGroup { get; set; }
+        public virtual RecordOFXSubGroup? RecordOFXSubGroup { get; set; }
     }
 }

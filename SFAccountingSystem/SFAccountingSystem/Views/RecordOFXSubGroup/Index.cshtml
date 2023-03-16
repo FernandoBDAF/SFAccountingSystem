@@ -1,15 +1,38 @@
-﻿@{
-    var lab = ViewBag.Groups;
+﻿@model ICollection<RecordOFXSubGroup>
+@{
+    ViewData["Title"] = "Subgroups";
 }
 
-<form method="post">
-    <div class="mb-3">
-        <label class="form-label" for="Entity">Entity</label>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="mb-4">List of Groups</h1>
 
-        <select class="form-control" id="Entity" asp-items="ViewBag.Groups" required>
-            <option></option>
-        </select>
-
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Group</th>
+                        <th>Direct Childrens</th>
+                        <th>Total Childrens</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (KeyValuePair<string, int> item in ViewBag.Groups)
+                    {
+                            <tr>
+                                <td>@item.Key</td>
+                                <td>@Model.Where(x => (int)x.Group == @item.Value && x.ParentId == null).Count()</td>
+                                <td>@Model.Where(x => (int)x.Group == @item.Value).Count()</td>
+                                <td>
+                                    <a class="btn btn-primary" href="/RecordOFXSubGroup/Create">Add Subgroup</a> @*se eu passar o id aqui da pau*@
+                                    <a class="btn btn-secondary" href="/RecordOFXSubGroup/IndexSubGroup/@item.Value">List of Subgroups</a>
+                                </td>
+                            </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</form>
+</div>
 
