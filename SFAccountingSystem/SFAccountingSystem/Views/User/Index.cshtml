@@ -1,6 +1,7 @@
-﻿@model ICollection<User>
+﻿@using SFAccountingSystem.Enums;
+@model ICollection<User>
 @{
-	ViewData["Title"] = "Users";
+    ViewData["Title"] = "Users";
 }
 
 <div class="container">
@@ -21,20 +22,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(User user in Model)
+                    @foreach (User user in Model)
                     {
                         <tr>
-                            <td>user.Name</td>
-                            <td>user.Entity</td>
-                            <td>user.CpfCnpj</td>
-                            <td>user.Type</td>
+                            <td>@user.Name</td>
+                            <td>@(user.Entity.ToName<UserEntity>())</td>
+                            <td>@user.CpfCnpj</td>
+                            <td>@(user.Type.ToName<UserType>())</td>
                             <td>
-                                    <a class="btn btn-secondary" href="./Update/user.Id">Edit</a>
-                                    <a class="btn btn-danger" href="./Delete/user.Id">Delete</a>
+                                <a class="btn btn-secondary" href="/User/Update/@user.Id">Edit</a>
+                                <a class="btn btn-danger" onclick="return confirm('Are you ready ?')" href="/User/Delete/@user.Id">Delete</a>
                             </td>
                         </tr>
                     }
-                    
                 </tbody>
             </table>
         </div>

@@ -13,7 +13,7 @@ namespace SFAccountingSystem.Controllers
 
         public readonly DataContext _dataContext;
 
-        public UserController(ILogger<HomeController> logger, DataContext dataContext) //todos precisam ter logger, pra que serve? data context so  injeto onde for acessar o data bese ne?
+        public UserController(ILogger<HomeController> logger, DataContext dataContext)
         {
             _logger = logger;
             _dataContext = dataContext;
@@ -25,46 +25,7 @@ namespace SFAccountingSystem.Controllers
             return View(users);
         }
 
-        public IActionResult Create() //tive que criar a viewbag, pois se colocar um objeto aqui diferente do post method da pau
-        {
-			SelectList select1 = new SelectList(Enum.GetValues(typeof(UserEntity))
-												.Cast<UserEntity>()
-												.Select(x => new
-												{
-													DisplayName = x.ToName<UserEntity>(),
-													Id = (int)x
-												}), "Id", "DisplayName");
-
-			SelectList select2 = new SelectList(Enum.GetValues(typeof(UserType))
-												.Cast<UserType>()
-												.Select(x => new
-												{
-													DisplayName = x.ToName<UserType>(),
-													Id = (int)x
-												}), "Id", "DisplayName");
-			ViewBag.Select = new UserSelectEnum
-			{
-				Select1 = select1,
-				Select2 = select2
-			};
-
-			return View();
-        }
-
-        [HttpPost]
-		public async Task<IActionResult> Create(User user) //importante fazer assync e revisar tudo que tem que ser assync
-		{
-            if (!ModelState.IsValid)
-            {
-                return View(user);
-            }
-
-            await _dataContext.Users.AddAsync(user); //coloco await aqui tambem?
-            await _dataContext.SaveChangesAsync();
-			return RedirectToAction("Index");
-		}
-
-        public async Task<IActionResult> Update(int Id) // se eu colocar User user entra em conflito com o post
+        public IActionResult Create()
         {
             SelectList select1 = new SelectList(Enum.GetValues(typeof(UserEntity))
                                                 .Cast<UserEntity>()
@@ -81,6 +42,48 @@ namespace SFAccountingSystem.Controllers
                                                     DisplayName = x.ToName<UserType>(),
                                                     Id = (int)x
                                                 }), "Id", "DisplayName");
+
+            ViewBag.Select = new UserSelectEnum
+            {
+                Select1 = select1,
+                Select2 = select2
+            };
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
+
+            await _dataContext.Users.AddAsync(user);
+            await _dataContext.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Update(int Id)
+        {
+            SelectList select1 = new SelectList(Enum.GetValues(typeof(UserEntity))
+                                                .Cast<UserEntity>()
+                                                .Select(x => new
+                                                {
+                                                    DisplayName = x.ToName<UserEntity>(),
+                                                    Id = (int)x
+                                                }), "Id", "DisplayName");
+
+            SelectList select2 = new SelectList(Enum.GetValues(typeof(UserType))
+                                                .Cast<UserType>()
+                                                .Select(x => new
+                                                {
+                                                    DisplayName = x.ToName<UserType>(),
+                                                    Id = (int)x
+                                                }), "Id", "DisplayName");
+
             ViewBag.Select = new UserSelectEnum
             {
                 Select1 = select1,
@@ -88,7 +91,7 @@ namespace SFAccountingSystem.Controllers
             };
 
             var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == Id);
-            
+
             if (user == null)
             {
                 throw new Exception("There is not a user with this Id");
@@ -96,29 +99,38 @@ namespace SFAccountingSystem.Controllers
 
             return View(user);
         }
-        
+
         [HttpPost]
-		public async Task<IActionResult> Update(User user) // quando devolvi nao informei o ID na volta, ele aproveita o que
-                                                           // ja foi na ida ou tenho que ver todas as variaveis, inclusive as herdadas?
-		{
+        public async Task<IActionResult> Update(User user)
+        {
             if (!ModelState.IsValid)
             {
                 return View(user);
             }
-
             else if (ModelState.IsValid)
             {
-                _dataContext.Users.Update(user); //nao achei assync
-                await _dataContext.SaveChangesAsync();
+                var current = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
+
+                if (current != null)
+                {
+                    current.Name = user.Name;
+                    current.CpfCnpj = user.CpfCnpj;
+                    current.Type = user.Type;
+                    current.Entity = user.Entity;
+
+                    _dataContext.Users.Update(current);
+                    await _dataContext.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
             }
 
-            return RedirectToAction("Index"); //tentei colocar dentro do else if mas xiou
+            throw new NotImplementedException();
         }
 
-		[HttpPost]
-		public async Task<IActionResult> Delete(int Id)
-		{
-            var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == Id); //FirstAsync or FirstOrDefaultAsync?
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (user == null)
             {
@@ -127,11 +139,11 @@ namespace SFAccountingSystem.Controllers
 
             else if (user != null)
             {
-                _dataContext.Users.Remove(user); //nao achei assync
+                _dataContext.Users.Remove(user);
                 await _dataContext.SaveChangesAsync();
             }
 
             return RedirectToAction("Index");
         }
-	}
+    }
 }
