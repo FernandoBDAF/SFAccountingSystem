@@ -25,7 +25,7 @@
                                 <td>@Model.Where(x => (int)x.Group == @item.Value && x.ParentId == null).Count()</td>
                                 <td>@Model.Where(x => (int)x.Group == @item.Value).Count()</td>
                                 <td>
-                                    <a class="btn btn-primary" href="/RecordOFXSubGroup/Create">Add Subgroup</a> @*se eu passar o id aqui da pau*@
+                                    <a class="btn btn-primary" href="/RecordOFXSubGroup/Create/@item.Value">Add Subgroup</a> @*se eu passar o id aqui da pau*@
                                     <a class="btn btn-secondary" href="/RecordOFXSubGroup/IndexSubGroup/@item.Value">List of Subgroups</a>
                                 </td>
                             </tr>

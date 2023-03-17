@@ -17,7 +17,7 @@ namespace SFAccountingSystem.Models
 
 		[ForeignKey("Parent")]
 		public int? ParentId { get; set; }
-		public virtual RecordOFXSubGroup Parent { get; set; }
+		public virtual RecordOFXSubGroup? Parent { get; set; }
 
 		public virtual IEnumerable<RecordOFXSubGroup> ChildRecordsOFXes { get; set; } = new HashSet<RecordOFXSubGroup>();
 	}

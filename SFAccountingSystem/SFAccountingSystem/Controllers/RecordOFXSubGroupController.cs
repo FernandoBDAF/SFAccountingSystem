@@ -63,8 +63,9 @@ namespace SFAccountingSystem.Controllers
         }
 
         //o que fazer se eu quiser instanciar um enum manualmente?
-        public IActionResult Create() //ja queria passar aqui o ID do enum
+        public IActionResult Create(int id) //ja queria passar aqui o ID do enum
         {
+
             var list = Enum.GetValues(typeof(RecordOFXGroup))
                                                 .Cast<RecordOFXGroup>()
                                                 .Select(x => new
@@ -74,17 +75,20 @@ namespace SFAccountingSystem.Controllers
                                                 });
 
             ViewBag.Groups = new SelectList(list, "Id", "DisplayName");
-
-            return View();
+            
+            return View(new RecordOFXSubGroup
+            {
+                Group = (RecordOFXGroup)id
+            });
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(RecordOFXSubGroup subgroup)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(subgroup);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(subgroup);
+            }
 
             await _dataContext.RecordOFXSubGroups.AddAsync(subgroup);
             await _dataContext.SaveChangesAsync();
