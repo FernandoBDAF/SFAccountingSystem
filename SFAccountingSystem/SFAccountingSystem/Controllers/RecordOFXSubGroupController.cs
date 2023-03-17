@@ -62,7 +62,6 @@ namespace SFAccountingSystem.Controllers
             return View();
         }
 
-        //o que fazer se eu quiser instanciar um enum manualmente?
         public IActionResult Create(int id)
         {
 
@@ -85,6 +84,8 @@ namespace SFAccountingSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(RecordOFXSubGroup subgroup)
         {
+            subgroup.Id = 0; // lucas vai checar, mas aqui eh pq esta sendo passado o id da rota
+
             if (!ModelState.IsValid)
             {
                 return View(subgroup);
@@ -93,7 +94,7 @@ namespace SFAccountingSystem.Controllers
             await _dataContext.RecordOFXSubGroups.AddAsync(subgroup);
             await _dataContext.SaveChangesAsync();
 
-            return RedirectToAction("IndexSubGroup",  (int)subgroup.Group); // nao esta redirecionando correto
+            return RedirectToAction("IndexSubGroup",  new { id = (int)subgroup.Group});
         }
 
         public IActionResult CreateSubChildren() //teria que passar o parentID ja fixo
