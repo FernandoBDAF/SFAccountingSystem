@@ -63,7 +63,7 @@ namespace SFAccountingSystem.Controllers
         }
 
         //o que fazer se eu quiser instanciar um enum manualmente?
-        public IActionResult Create(int id) //ja queria passar aqui o ID do enum
+        public IActionResult Create(int id)
         {
 
             var list = Enum.GetValues(typeof(RecordOFXGroup))
