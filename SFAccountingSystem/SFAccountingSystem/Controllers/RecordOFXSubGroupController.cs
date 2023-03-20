@@ -20,9 +20,11 @@ namespace SFAccountingSystem.Controllers
             _dataContext = dataContext;
         }
 
+
+
         public async Task<IActionResult> Index()
         {
-            Dictionary<string, int> groups = new Dictionary<string, int>();
+            Dictionary<string, int> groups = new();
 
             foreach (var name in Enum.GetNames(typeof(RecordOFXGroup)))
             {
@@ -36,8 +38,10 @@ namespace SFAccountingSystem.Controllers
             return View(subgroups);
         }
 
-        public async Task<IActionResult> IndexSubGroup(int id) // se eu passar int group da erro
+        public async Task<IActionResult> IndexSubGroup(int id)
         {
+            ViewBag.Group = id;
+            
             var subgroups = await _dataContext.RecordOFXSubGroups
                 .Where(x => (int)x.Group == id).ToListAsync();
             if (subgroups != null) //mesmo quando eh null redireciona para outro lugar
@@ -55,12 +59,15 @@ namespace SFAccountingSystem.Controllers
             if (subgroup != null)
             {
                 var childrens = await _dataContext.RecordOFXSubGroups
-                .Where(x => x.Group == subgroup.Group).ToListAsync();
+                .Where(x => x.Group == subgroup.Group)
+                .Include(x => x.Parent)
+                .ToListAsync();
                 return View(childrens);
             }
             
             return View();
         }
+
 
         public IActionResult Create(int id)
         {
@@ -75,7 +82,7 @@ namespace SFAccountingSystem.Controllers
 
             ViewBag.Groups = new SelectList(list, "Id", "DisplayName");
             
-            return View(new RecordOFXSubGroup
+            return View(new RecordOFXSubGroup //recebo o id, mas ja envio um objeto com esse id
             {
                 Group = (RecordOFXGroup)id
             });
@@ -97,7 +104,7 @@ namespace SFAccountingSystem.Controllers
             return RedirectToAction("IndexSubGroup",  new { id = (int)subgroup.Group});
         }
 
-        public IActionResult CreateSubChildren() //teria que passar o parentID ja fixo
+        public async Task<IActionResult> CreateSubChildren(int id)
         {
             var list = Enum.GetValues(typeof(RecordOFXGroup))
                                                 .Cast<RecordOFXGroup>()
@@ -109,22 +116,41 @@ namespace SFAccountingSystem.Controllers
 
             ViewBag.Groups = new SelectList(list, "Id", "DisplayName");
 
-            return View();
+            var parent = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == id);
+            var group = (RecordOFXGroup)0;
+            if (parent != null)
+            {
+                group = parent.Group;
+            }
+            
+            return View(new RecordOFXSubGroup
+            {
+                Group = group,
+                ParentId = id
+            });
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateSubChildren(RecordOFXSubGroup subgroup)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(subgroup);
-            //}
+            subgroup.Id = 0;
+
+            if (!ModelState.IsValid)
+            {
+                return View(subgroup);
+            }
 
             await _dataContext.RecordOFXSubGroups.AddAsync(subgroup);
             await _dataContext.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            if (subgroup.ParentId != null)
+            {
+                return RedirectToAction("IndexChildrens", new { id = (int)subgroup.ParentId });
+            }
+
+            throw new NotImplementedException();
         }
+
 
         public async Task<IActionResult> Update(int Id)
         {
@@ -151,33 +177,41 @@ namespace SFAccountingSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(RecordOFXSubGroup subGroup)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(subGroup);
-            //}
-            //else if (ModelState.IsValid)
-            //{
-            var current = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == subGroup.Id);
-
-            if (current != null)
+            if (!ModelState.IsValid)
             {
-                current.Group = subGroup.Group;
-                current.Description = subGroup.Description;
-                current.ParentId = subGroup.ParentId;
-
-                _dataContext.RecordOFXSubGroups.Update(current);
-                await _dataContext.SaveChangesAsync();
-
-                return RedirectToAction("Index");
+                return View(subGroup);
             }
-            //}
+            else if (ModelState.IsValid)
+            {
+                var current = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == subGroup.Id);
+
+
+                if (current != null)
+                {
+                    current.Description = subGroup.Description;
+                    
+                    _dataContext.RecordOFXSubGroups.Update(current);
+                    await _dataContext.SaveChangesAsync();
+
+                    if (current.ParentId == null)
+                    {
+                        return RedirectToAction("IndexSubGroup", new { id = (int)current.Group });
+                    }
+                    else
+                    {
+                        return RedirectToAction("IndexChildrens", new { id = (int)current.ParentId });
+                    }
+                }
+            }
 
             throw new NotImplementedException();
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id) //se tentar apagar um sub que tem filhos da erro, teria que tratar esse erro
         {
             var subgroup = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == id);
+            
+
 
             if (subgroup == null)
             {
@@ -186,11 +220,22 @@ namespace SFAccountingSystem.Controllers
 
             else if (subgroup != null)
             {
+                var group = subgroup.Group;
+
                 _dataContext.RecordOFXSubGroups.Remove(subgroup);
                 await _dataContext.SaveChangesAsync();
+
+                if (subgroup.ParentId == null)
+                {
+                    return RedirectToAction("IndexSubGroup", new { id = (int)group });
+                }
+                else
+                {
+                    return RedirectToAction("IndexChildrens", new { id = (int)subgroup.ParentId });
+                }
             }
 
-            return RedirectToAction("Index"); //tem como redirecionar pra pagina de onde veio?
+            throw new NotImplementedException();
         }
     }
 }
