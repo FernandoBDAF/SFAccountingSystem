@@ -1,13 +1,16 @@
 ﻿using SFAccountingSystem.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SFAccountingSystem.Models
 {
 	public class RecordOFXSubGroup : BaseModel //faltou required em algumas propriedades
 	{
+		[Required]
 		public RecordOFXGroup Group { get; set; }
 
-		public string Description { get; set; }
+		[Required]
+		public string? Description { get; set; }
 
 
 

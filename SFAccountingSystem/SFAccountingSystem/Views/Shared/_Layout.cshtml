@@ -48,6 +48,51 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
+            @if (!ViewData.ModelState.IsValid) @*msg se houver erro de criacao ou edicao*@
+            {
+                <div class="notice d-flex bg-light-danger rounded border-primary border border-danger border-dashed mb-2 p-6">
+                    <div class="d-flex flex-stack flex-grow-1">
+                        <div class="fw-bold">
+                            <div asp-validation-summary="All" class="fs-6 text-gray-600"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @*modal usado para delete*@
+            <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Do you really want to DELETE this entry?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            @*java que chama o modal*@
+            <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                var deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
+                var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+                deleteConfirmationModal.addEventListener('show.bs.modal', function(event) {
+                  var button = event.relatedTarget;
+                  var deleteUrl = button.getAttribute('data-delete-url');
+                  confirmDeleteBtn.setAttribute('href', deleteUrl);
+                });
+              });
+            </script>
+
         </main>
     </div>
 

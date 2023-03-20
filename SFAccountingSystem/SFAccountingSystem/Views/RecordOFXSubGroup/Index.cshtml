@@ -1,13 +1,11 @@
 ﻿@model ICollection<RecordOFXSubGroup>
 @{
-    ViewData["Title"] = "Subgroups";
+    ViewData["Title"] = "Groups";
 }
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mb-4">List of Groups</h1>
-
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -25,8 +23,7 @@
                                 <td>@Model.Where(x => (int)x.Group == @item.Value && x.ParentId == null).Count()</td>
                                 <td>@Model.Where(x => (int)x.Group == @item.Value).Count()</td>
                                 <td>
-                                    <a class="btn btn-primary" href="/RecordOFXSubGroup/Create/@item.Value">Add Subgroup</a> @*se eu passar o id aqui da pau*@
-                                    <a class="btn btn-secondary" href="/RecordOFXSubGroup/IndexSubGroup/@item.Value">List of Subgroups</a>
+                                    <a class="btn btn-primary" href="/RecordOFXSubGroup/IndexSubGroup/@item.Value">Subgroups</a>
                                 </td>
                             </tr>
                     }
@@ -35,4 +32,3 @@
         </div>
     </div>
 </div>
-

@@ -6,9 +6,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mb-4">Groups -> @(Enum.GetName(typeof(RecordOFXGroup), @Model.Select(x => (int)x.Group).FirstOrDefault()))</h1>
+            <h1 class="mb-4">@(Enum.GetName(typeof(RecordOFXGroup), (int)ViewBag.Group))</h1>
 
-            <a class="btn btn-primary" href="/RecordOFXSubGroup/Index">Back</a>
+            <div>
+                <a class="btn btn-secondary" href="/RecordOFXSubGroup/Index">Back</a>
+                <a class="btn btn-primary" href="/RecordOFXSubGroup/Create/@((int)ViewBag.Group)">Add</a>
+            </div>
+            
 
             <table class="table table-striped">
                 <thead>
@@ -24,18 +28,17 @@
                     {
                         @if (subgroup.ParentId == null)
                         {
-                                    <tr>
-                                        <td>@subgroup.Description</td>
-                                        <td>@Model.Where(x => x.ParentId == @subgroup.Id).Count()</td>
-                                        <td>?</td>
-                                        <td>
-                                            <a class="btn btn-secondary" href="/RecordOFXSubGroup/CreateSubChildren">Insert Node</a>
-                                            <a class="btn btn-secondary" href="/RecordOFXSubGroup/IndexChildrens/@subgroup.Id">List</a>
-                                            <a class="btn btn-secondary" href="/RecordOFXSubGroup/Update/@subgroup.Id">Edit</a>
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/RecordOFXSubGroup/Delete/@subgroup.Id">Delete</button>
-                                    @*repensar como organizar esse arquivo ate para poder reutilizar os scripts de confirmacao de delecao em outros arquivos*@
-                                        </td>
-                                    </tr>
+                            <tr>
+                                <td>@subgroup.Description</td>
+                                <td>@Model.Where(x => x.ParentId == @subgroup.Id).Count()</td>
+                                <td>?</td>
+                                <td>
+                                    <a class="btn btn-primary" href="/RecordOFXSubGroup/IndexChildrens/@subgroup.Id">Childrens</a>
+                                    <a class="btn btn-secondary" href="/RecordOFXSubGroup/Update/@subgroup.Id">Edit</a>
+                                    @*chama o modal que esta no _layout*@
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/RecordOFXSubGroup/Delete/@subgroup.Id">Delete</button>
+                                </td>
+                            </tr>
                         }
                     }
                 </tbody>
@@ -43,39 +46,4 @@
         </div>
     </div>
 </div>
-
-
-@*repensar como organizar esse arquivo ate para poder reutilizar os scripts de confirmacao de delecao em outros arquivos*@
-
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Delete</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Do you really want to DELETE this entry?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
-    var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-
-    deleteConfirmationModal.addEventListener('show.bs.modal', function(event) {
-      var button = event.relatedTarget;
-      var deleteUrl = button.getAttribute('data-delete-url');
-      confirmDeleteBtn.setAttribute('href', deleteUrl);
-    });
-  });
-</script>
 
