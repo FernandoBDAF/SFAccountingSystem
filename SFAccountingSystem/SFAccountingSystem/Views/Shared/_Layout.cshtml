@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SFAccountingSystem</title>
+    <title>@Html.Raw(ViewData["Title"]) - SFAccountingSystem</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SFAccountingSystem.styles.css" asp-append-version="true" />
@@ -51,13 +51,13 @@
 
             @if (!ViewData.ModelState.IsValid) @*msg se houver erro de criacao ou edicao*@
             {
-                <div class="notice d-flex bg-light-danger rounded border-primary border border-danger border-dashed mb-2 p-6">
-                    <div class="d-flex flex-stack flex-grow-1">
-                        <div class="fw-bold">
-                            <div asp-validation-summary="All" class="fs-6 text-gray-600"></div>
+                    <div class="notice d-flex bg-light-danger rounded border-primary border border-danger border-dashed mb-2 p-6">
+                        <div class="d-flex flex-stack flex-grow-1">
+                            <div class="fw-bold">
+                                <div asp-validation-summary="All" class="fs-6 text-gray-600"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
             }
 
             @*modal usado para delete*@

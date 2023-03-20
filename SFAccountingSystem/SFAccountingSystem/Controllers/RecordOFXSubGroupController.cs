@@ -19,7 +19,7 @@ namespace SFAccountingSystem.Controllers
 
         public async Task<IActionResult> Index(RecordOFXGroup? groupId = null, int? parentId = null)
         {
-            ViewData["Title"] = "Groups";
+            ViewData["SubTitle"] = " <a href='/RecordOFXSubGroup'>Groups</a>";
 
             if (groupId == null)
             {
@@ -38,7 +38,12 @@ namespace SFAccountingSystem.Controllers
                 ViewBag.Group = groupId;
                 ViewBag.ParentId = parentId;
 
-                ViewData["Title"] += $" > {groupId.ToName<RecordOFXGroup>()}";
+                ViewData["SubTitle"] += $" > <a href='/RecordOFXSubGroup/?groupId={(int)groupId}'>{groupId.ToName<RecordOFXGroup>()}</a>";
+
+                if (parentId.HasValue)
+                {
+                    await RecursiveMethod(parentId.Value);
+                }
 
                 return View("IndexSubGroup", await _dataContext.RecordOFXSubGroups
                                                                .Include(x => x.RecordsOFXes)
@@ -109,6 +114,22 @@ namespace SFAccountingSystem.Controllers
             }
 
             throw new NotImplementedException();
+        }
+
+
+        private async Task RecursiveMethod(int currentId)
+        {
+            var current = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == currentId);
+
+            if (current != null)
+            {
+                if (current.ParentId.HasValue)
+                {
+                    await RecursiveMethod(current.ParentId.Value);
+                }
+
+                ViewData["SubTitle"] += $" > <a href='/RecordOFXSubGroup/?groupId={(int)current.Group}&parentId={current.Id}'>{current.Description}</a>";
+            }
         }
     }
 }
