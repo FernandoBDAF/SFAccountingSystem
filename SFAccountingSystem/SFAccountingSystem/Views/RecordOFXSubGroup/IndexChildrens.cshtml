@@ -39,13 +39,16 @@
                         {
                                 <tr>
                                     <td>@subgroup.Description</td>
-                                    <td>@Model.Where(x => x.ParentId == @subgroup.Id).Count()</td>
-                                    <td>?</td>
+                                    <td>@subgroup.ChildRecordsOFXes.Count()</td>
+                                    <td>@subgroup.ChildRecordsOFXes.Count()</td>
                                     <td>
                                         <a class="btn btn-primary" href="/RecordOFXSubGroup/IndexChildrens/@subgroup.Id">Childrens</a>
                                         <a class="btn btn-secondary" href="/RecordOFXSubGroup/Update/@subgroup.Id">Edit</a>
                                         @*chama o modal que esta no _layout*@
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/RecordOFXSubGroup/Delete/@subgroup.Id">Delete</button>
+                                        @if(subgroup.CanDelete)
+                                        {
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/RecordOFXSubGroup/Delete/@subgroup.Id">Delete</button>
+                                        }
                                     </td>
                                 </tr>
                         }

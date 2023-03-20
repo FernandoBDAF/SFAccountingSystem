@@ -12,7 +12,7 @@ namespace SFAccountingSystem.Controllers
     {
         private readonly ILogger<RecordOFXSubGroupController> _logger;
 
-        public readonly DataContext _dataContext;
+        private readonly DataContext _dataContext;
 
         public RecordOFXSubGroupController(ILogger<RecordOFXSubGroupController> logger, DataContext dataContext)
         {
@@ -41,37 +41,46 @@ namespace SFAccountingSystem.Controllers
         public async Task<IActionResult> IndexSubGroup(int id)
         {
             ViewBag.Group = id;
-            
+
             var subgroups = await _dataContext.RecordOFXSubGroups
-                .Where(x => (int)x.Group == id).ToListAsync();
+                                              .Include(x => x.ChildRecordsOFXes)
+                                              .Include(x => x.RecordsOFXes)
+                                              .Where(x => (int)x.Group == id)
+                                              .ToListAsync();
+
             if (subgroups != null) //mesmo quando eh null redireciona para outro lugar
             {
                 return View(subgroups);
             }
+
             return RedirectToAction("Index");
-            
+
         }
 
         public async Task<IActionResult> IndexChildrens(int id)
         {
             var subgroup = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == id);
+
             ViewBag.Subgroup = subgroup;
+
             if (subgroup != null)
             {
                 var childrens = await _dataContext.RecordOFXSubGroups
-                .Where(x => x.Group == subgroup.Group)
-                .Include(x => x.Parent)
-                .ToListAsync();
+                                                  .Include(x => x.ChildRecordsOFXes)
+                                                  .Include(x => x.RecordsOFXes)
+                                                  .Where(x => x.Group == subgroup.Group)
+                                                  .Include(x => x.Parent)
+                                                  .ToListAsync();
+
                 return View(childrens);
             }
-            
+
             return View();
         }
 
 
         public IActionResult Create(int id)
         {
-
             var list = Enum.GetValues(typeof(RecordOFXGroup))
                                                 .Cast<RecordOFXGroup>()
                                                 .Select(x => new
@@ -81,7 +90,7 @@ namespace SFAccountingSystem.Controllers
                                                 });
 
             ViewBag.Groups = new SelectList(list, "Id", "DisplayName");
-            
+
             return View(new RecordOFXSubGroup //recebo o id, mas ja envio um objeto com esse id
             {
                 Group = (RecordOFXGroup)id
@@ -101,7 +110,7 @@ namespace SFAccountingSystem.Controllers
             await _dataContext.RecordOFXSubGroups.AddAsync(subgroup);
             await _dataContext.SaveChangesAsync();
 
-            return RedirectToAction("IndexSubGroup",  new { id = (int)subgroup.Group});
+            return RedirectToAction("IndexSubGroup", new { id = (int)subgroup.Group });
         }
 
         public async Task<IActionResult> CreateSubChildren(int id)
@@ -117,12 +126,14 @@ namespace SFAccountingSystem.Controllers
             ViewBag.Groups = new SelectList(list, "Id", "DisplayName");
 
             var parent = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == id);
+
             var group = (RecordOFXGroup)0;
+
             if (parent != null)
             {
                 group = parent.Group;
             }
-            
+
             return View(new RecordOFXSubGroup
             {
                 Group = group,
@@ -185,11 +196,10 @@ namespace SFAccountingSystem.Controllers
             {
                 var current = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == subGroup.Id);
 
-
                 if (current != null)
                 {
                     current.Description = subGroup.Description;
-                    
+
                     _dataContext.RecordOFXSubGroups.Update(current);
                     await _dataContext.SaveChangesAsync();
 
@@ -210,14 +220,11 @@ namespace SFAccountingSystem.Controllers
         public async Task<IActionResult> Delete(int id) //se tentar apagar um sub que tem filhos da erro, teria que tratar esse erro
         {
             var subgroup = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == id);
-            
-
 
             if (subgroup == null)
             {
                 throw new Exception("There is not a subgroup with this Id");
             }
-
             else if (subgroup != null)
             {
                 var group = subgroup.Group;
