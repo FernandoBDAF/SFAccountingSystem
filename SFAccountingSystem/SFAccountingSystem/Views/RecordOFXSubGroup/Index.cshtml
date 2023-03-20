@@ -1,0 +1,27 @@
+@model Dictionary<string, int>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Group</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (KeyValuePair<string, int> item in Model)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>
+                                <a class="btn btn-primary" href="/RecordOFXSubGroup/?groupId=@item.Value">Subgroups</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>    

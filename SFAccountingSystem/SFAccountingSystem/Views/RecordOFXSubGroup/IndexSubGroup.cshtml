@@ -1,0 +1,48 @@
+@model ICollection<RecordOFXSubGroup>
+@{
+    ViewData["Title"] = "Subgroups";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="mb-4">@(Enum.GetName(typeof(RecordOFXGroup), (int)ViewBag.Group))</h1>
+
+            <div>
+                <a class="btn btn-secondary" href="/RecordOFXSubGroup/Index">Back</a>
+                <a class="btn btn-primary" href="/RecordOFXSubGroup/Create/@((int)ViewBag.Group)">Add</a>
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Direct Childrens</th>
+                        <th>Total Childrens</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (RecordOFXSubGroup subgroup in Model)
+                    {
+                        <tr>
+                            <td>@subgroup.Description</td>
+                            <td>@subgroup.ChildRecordsOFXes.Count()</td>
+                            <td>@subgroup.ChildRecordsOFXes.Count()</td>
+                            <td>
+                                <a class="btn btn-primary" href="/RecordOFXSubGroup/?parentId=@subgroup.Id&groupId=@subgroup.Group">Childrens</a>
+                                <a class="btn btn-secondary" href="/RecordOFXSubGroup/Update/@subgroup.Id">Edit</a>
+                                @*chama o modal que esta no _layout*@
+                                @if(subgroup.CanDelete)
+                                {
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/RecordOFXSubGroup2/Delete/@subgroup.Id">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
