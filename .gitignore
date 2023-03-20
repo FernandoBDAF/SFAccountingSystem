@@ -6,3 +6,5 @@
 /SFAccountingSystem/SFAccountingSystem/bin/Debug/net7.0
 /.vs
 /SFAccountingSystem/.vs/*
+SFAccountingSystem/SFAccountingSystem/.vscode/launch.json
+SFAccountingSystem/SFAccountingSystem/.vscode/tasks.json
