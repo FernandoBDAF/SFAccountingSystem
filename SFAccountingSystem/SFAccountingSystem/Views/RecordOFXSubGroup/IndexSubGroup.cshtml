@@ -1,16 +1,15 @@
 @model ICollection<RecordOFXSubGroup>
-@{
-    ViewData["Title"] = "Subgroups";
-}
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mb-4">@(Enum.GetName(typeof(RecordOFXGroup), (int)ViewBag.Group))</h1>
+            <h1 class="mb-4">
+                @ViewData["Title"]
+            </h1>
 
             <div>
-                <a class="btn btn-secondary" href="/RecordOFXSubGroup/Index">Back</a>
-                <a class="btn btn-primary" href="/RecordOFXSubGroup/Create/@((int)ViewBag.Group)">Add</a>
+                <a class="btn btn-secondary" href="/RecordOFXSubGroup/?groupId=@((int)ViewBag.Group)&parentId=@ViewBag.ParentId">Back</a>
+                <a class="btn btn-primary" href="/RecordOFXSubGroup/Create/?groupId=@((int)ViewBag.Group)&parentId=@ViewBag.ParentId">Add</a>
             </div>
 
             <table class="table table-striped">

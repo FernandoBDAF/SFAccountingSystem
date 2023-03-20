@@ -1,0 +1,32 @@
+@model RecordOFXSubGroup
+
+@{
+    ViewData["Title"] = "Register a Subgroup";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mb-4 text-center">Register a new subgroup</h1>
+            <form method="post">
+                <input type="hidden" asp-for="ParentId" />
+                <input type="hidden" asp-for="Group"/>
+                
+                <div class="mb-3">
+                    <label class="form-label" for="Group">Group</label>
+                    <select class="form-control" id="Group" asp-for="Group" asp-items="ViewBag.Groups" required disabled>
+                        <option></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Description">Description</label>
+                    <input class="form-control" id="Description" asp-for="Description" required/>
+                </div>
+
+                <div class="mb-3">
+                    <input class="btn btn-success w-100" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
