@@ -116,6 +116,73 @@ namespace SFAccountingSystem.Controllers
             throw new NotImplementedException();
         }
 
+        public async Task<IActionResult> Update(int id)
+        {
+            var list = Enum.GetValues(typeof(RecordOFXGroup))
+                                                .Cast<RecordOFXGroup>()
+                                                .Select(x => new
+                                                {
+                                                    DisplayName = x.ToName<RecordOFXGroup>(),
+                                                    Id = (int)x
+                                                });
+
+            ViewBag.Groups = new SelectList(list, "Id", "DisplayName");
+
+            var subgroup = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (subgroup == null)
+            {
+                throw new Exception("There is not a subgroup with this Id");
+            }
+
+            return View(subgroup);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(RecordOFXSubGroup subGroup)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(subGroup);
+            }
+            else if (ModelState.IsValid)
+            {
+                var current = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == subGroup.Id);
+
+                if (current != null)
+                {
+                    current.Description = subGroup.Description;
+
+                    _dataContext.RecordOFXSubGroups.Update(current);
+                    await _dataContext.SaveChangesAsync();
+
+                    return RedirectToAction("Index", new { parentId = current.ParentId, groupId = current.Group });
+                }
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var subgroup = await _dataContext.RecordOFXSubGroups.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (subgroup == null)
+            {
+                throw new Exception("There is not a subgroup with this Id");
+            }
+            else if (subgroup != null)
+            {
+                var group = subgroup.Group;
+
+                _dataContext.RecordOFXSubGroups.Remove(subgroup);
+                await _dataContext.SaveChangesAsync();
+
+                return RedirectToAction("Index", new { parentId = subgroup.ParentId, groupId = subgroup.Group });
+            }
+
+            throw new NotImplementedException();
+        }
 
         private async Task RecursiveMethod(int currentId)
         {
