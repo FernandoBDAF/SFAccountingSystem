@@ -8,13 +8,13 @@ using System.Collections.Generic;
 
 namespace SFAccountingSystem.Controllers
 {
-    public class RecordOFXSubGroupController : Controller
+    public class RecordOFXSubGroup2Controller : Controller
     {
-        private readonly ILogger<RecordOFXSubGroupController> _logger;
+        private readonly ILogger<RecordOFXSubGroup2Controller> _logger;
 
         private readonly DataContext _dataContext;
 
-        public RecordOFXSubGroupController(ILogger<RecordOFXSubGroupController> logger, DataContext dataContext)
+        public RecordOFXSubGroup2Controller(ILogger<RecordOFXSubGroup2Controller> logger, DataContext dataContext)
         {
             _logger = logger;
             _dataContext = dataContext;

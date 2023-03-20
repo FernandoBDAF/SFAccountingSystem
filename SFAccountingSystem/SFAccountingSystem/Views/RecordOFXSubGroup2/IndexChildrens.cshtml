@@ -12,15 +12,15 @@
                 {
                     <h1 class="mb-4">@(Enum.GetName(typeof(RecordOFXGroup), @Model.Select(x => (int)x.Group)
                     .FirstOrDefault())) -> @ViewBag.Subgroup.Parent.Description -> @ViewBag.Subgroup.Description</h1>
-                    <a class="btn btn-secondary" href="/RecordOFXSubGroup/IndexChildrens/@ViewBag.Subgroup.ParentId">Back</a>
+                    <a class="btn btn-secondary" href="/RecordOFXSubGroup2/IndexChildrens/@ViewBag.Subgroup.ParentId">Back</a>
                 }
                 else
                 { 
                     <h1 class="mb-4">@(Enum.GetName(typeof(RecordOFXGroup), @Model.Select(x => (int)x.Group)
                     .FirstOrDefault())) -> @ViewBag.Subgroup.Description</h1>
-                        <a class="btn btn-secondary" href="/RecordOFXSubGroup/IndexSubGroup/@((int)ViewBag.Subgroup.Group)">Back</a> @*Group´eh um enum*@
+                        <a class="btn btn-secondary" href="/RecordOFXSubGroup2/IndexSubGroup/@((int)ViewBag.Subgroup.Group)">Back</a> @*Group´eh um enum*@
                 }
-                <a class="btn btn-primary" href="/RecordOFXSubGroup/CreateSubChildren/@ViewBag.Subgroup.Id">Add</a>
+                <a class="btn btn-primary" href="/RecordOFXSubGroup2/CreateSubChildren/@ViewBag.Subgroup.Id">Add</a>
             </div>
             
             <table class="table table-striped">
@@ -42,12 +42,12 @@
                                     <td>@subgroup.ChildRecordsOFXes.Count()</td>
                                     <td>@subgroup.ChildRecordsOFXes.Count()</td>
                                     <td>
-                                        <a class="btn btn-primary" href="/RecordOFXSubGroup/IndexChildrens/@subgroup.Id">Childrens</a>
-                                        <a class="btn btn-secondary" href="/RecordOFXSubGroup/Update/@subgroup.Id">Edit</a>
+                                        <a class="btn btn-primary" href="/RecordOFXSubGroup2/IndexChildrens/@subgroup.Id">Childrens</a>
+                                        <a class="btn btn-secondary" href="/RecordOFXSubGroup2/Update/@subgroup.Id">Edit</a>
                                         @*chama o modal que esta no _layout*@
                                         @if(subgroup.CanDelete)
                                         {
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/RecordOFXSubGroup/Delete/@subgroup.Id">Delete</button>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-delete-url="/RecordOFXSubGroup2/Delete/@subgroup.Id">Delete</button>
                                         }
                                     </td>
                                 </tr>
