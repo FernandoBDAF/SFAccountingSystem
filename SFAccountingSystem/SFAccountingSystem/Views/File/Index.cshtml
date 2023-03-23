@@ -1,0 +1,36 @@
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" id="Ofx" name="Ofx" required />
+    <input type="submit" class="btn btn-success" value="Enviar" />
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                Valor
+            </th>
+            <th>
+                Descrição
+            </th>
+            <th>
+                Data
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in ViewBag.Rows)
+        {
+            <tr>
+                <td>
+                    @row.Value.ToString("n2")
+                </td>
+                <td>
+                    @row.Description
+                </td>
+                <td>
+                    @row.Date.ToString("dd/MM/yyyy")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
