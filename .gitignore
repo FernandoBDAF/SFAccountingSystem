@@ -8,3 +8,7 @@
 /SFAccountingSystem/.vs/*
 SFAccountingSystem/SFAccountingSystem/.vscode/launch.json
 SFAccountingSystem/SFAccountingSystem/.vscode/tasks.json
+/SFAccountingSystem/SFAccountingSystem.Api/bin/Debug/net7.0
+/SFAccountingSystem/SFAccountingSystem.Api/obj
+/SFAccountingSystem/SFAccountingSystem.Core/bin/Debug/net7.0
+/SFAccountingSystem/SFAccountingSystem.Core/obj
