@@ -3,30 +3,31 @@ using SFAccountingSystem.Models;
 
 namespace SFAccountingSystem.Services
 {
-    public class RecordOFXService
+    public class RecordOFXService : BaseService<RecordOFX>
     {
         private readonly OFXService _ofxService;
-        private readonly DataContext _dataContext;
 
-        public RecordOFXService(OFXService ofxService, DataContext dataContext)
+        public RecordOFXService(DataContext context, OFXService oFXService) : base(context)
         {
-            _ofxService = ofxService;
-            _dataContext = dataContext;
+            _ofxService = oFXService;
         }
 
         public async Task Add(IFormFile file)
         {
             foreach (var transaction in _ofxService.Process(file))
             {
-                await _dataContext.RecordOFX.AddAsync(new RecordOFX(transaction));
+                await context.RecordOFX.AddAsync(new RecordOFX(transaction));
             }
 
-            await _dataContext.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
-        public async Task<List<RecordOFX>> List()
+        public override async Task<List<RecordOFX>> List()
         {
-            return await _dataContext.RecordOFX.OrderByDescending(x => x.Date).ThenByDescending(x => x.Value).ToListAsync();
+            return await context.RecordOFX
+                                .OrderByDescending(x => x.CreatedAt)
+                                .ThenByDescending(x => x.Value)
+                                .ToListAsync();
         }
     }
 }
