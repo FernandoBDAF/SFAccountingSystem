@@ -19,6 +19,11 @@ namespace SFAccountingSystem.Core.Models
                                                         .Value
                                                         .Replace("</DTPOSTED>", "")
                                                         .Substring(0, 8), "yyyyMMdd", null);
+
+
+            FITID = int.Parse(transaction.Element("FITID").Value.Replace("</FITID>", ""));
+
+            Type = transaction.Element("TRNTYPE").Value.Replace("</TRNTYPE>", "");
         }
 
         public decimal Value { get; set; }
@@ -26,5 +31,9 @@ namespace SFAccountingSystem.Core.Models
         public string? Description { get; set; }
 
         public DateTimeOffset Date { get; set; } = new DateTimeOffset();
+
+        public int FITID { get; set; }
+
+        public string Type { get; set; }
     }
 }

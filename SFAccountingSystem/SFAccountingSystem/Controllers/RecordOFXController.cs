@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SFAccountingSystem.Core.Enums;
 using SFAccountingSystem.Core.Services;
 using SFAccountingSystem.Core.ViewModels;
 
@@ -15,13 +17,30 @@ namespace SFAccountingSystem.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewBag.Banks = new SelectList(Enum.GetValues(typeof(RecordOFXBank))
+                                                .Cast<RecordOFXBank>()
+                                                .Select(x => new
+                                                {
+                                                    DisplayName = x.ToName<RecordOFXBank>(),
+                                                    Id = (int)x
+                                                }), "Id", "DisplayName");
+
+
             return View(await _recordOFXService.List());
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(ObjectFileViewModel model)
         {
-            await _recordOFXService.Add(model.Ofx);
+            ViewBag.Banks = new SelectList(Enum.GetValues(typeof(RecordOFXBank))
+                                    .Cast<RecordOFXBank>()
+                                    .Select(x => new
+                                    {
+                                        DisplayName = x.ToName<RecordOFXBank>(),
+                                        Id = (int)x
+                                    }), "Id", "DisplayName");
+
+            await _recordOFXService.Add(model.Ofx, model.Bank);
 
             return View(await _recordOFXService.List());
         }

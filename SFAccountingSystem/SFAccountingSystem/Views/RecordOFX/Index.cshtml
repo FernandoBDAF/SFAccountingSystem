@@ -8,6 +8,9 @@
             </h3>
             <form method="POST" enctype="multipart/form-data">
                 <input type="file" id="Ofx" name="Ofx" required />
+                <select id="Bank" name="Bank" asp-items="ViewBag.Banks">
+                    <option></option>
+                </select>
                 <input type="submit" class="btn btn-success" value="Enviar" />
             </form>
             <hr />
@@ -24,6 +27,12 @@
                         <th>
                             Value
                         </th>
+                        <th>
+                            Bank
+                        </th>
+                        <th>
+                            Type
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +47,12 @@
                             </td>
                             <td>
                                 @item.Value.ToString("c")
+                            </td>
+                            <td>
+                                @(item.Bank.ToName<RecordOFXBank>())
+                            </td>
+                            <td>
+                                @(item.Type.ToName<RecordOFXType>())
                             </td>
                         </tr>
                     }

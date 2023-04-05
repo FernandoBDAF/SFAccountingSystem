@@ -7,11 +7,22 @@ namespace SFAccountingSystem.Core.Models
     {
         public RecordOFX() { }
 
-        public RecordOFX(TransactionOFX transaction)
+        public RecordOFX(TransactionOFX transaction, RecordOFXBank bank)
         {
             Value = transaction.Value;
             Details = transaction.Description;
             Date = transaction.Date.DateTime;
+            Bank = bank;
+            FITID = transaction.FITID;
+
+            if (transaction.Type == "CREDIT")
+            {
+                Type = RecordOFXType.Credit;
+            }
+            else
+            {
+                Type = RecordOFXType.Debit;
+            }
         }
 
         public DateTime Date { get; set; }
@@ -46,5 +57,7 @@ namespace SFAccountingSystem.Core.Models
         [ForeignKey("RecordOFXSubGroup")]
         public int? SubGroupId { get; set; }
         public virtual RecordOFXSubGroup? RecordOFXSubGroup { get; set; }
+
+        public int FITID { get; set; }
     }
 }
