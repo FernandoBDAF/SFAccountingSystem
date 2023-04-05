@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SFAccountingSystem.Enums;
-using SFAccountingSystem.Models;
-using SFAccountingSystem.ViewMoldes;
+using SFAccountingSystem.Core;
+using SFAccountingSystem.Core.Enums;
+using SFAccountingSystem.Core.Models;
 
 namespace SFAccountingSystem.Controllers
 {
@@ -43,11 +43,8 @@ namespace SFAccountingSystem.Controllers
                                                     Id = (int)x
                                                 }), "Id", "DisplayName");
 
-            ViewBag.Select = new UserSelectEnum
-            {
-                Select1 = select1,
-                Select2 = select2
-            };
+            ViewBag.Select1 = select1;
+            ViewBag.Select2 = select2;
 
             return View();
         }
@@ -84,11 +81,8 @@ namespace SFAccountingSystem.Controllers
                                                     Id = (int)x
                                                 }), "Id", "DisplayName");
 
-            ViewBag.Select = new UserSelectEnum
-            {
-                Select1 = select1,
-                Select2 = select2
-            };
+            ViewBag.Select1 = select1;
+            ViewBag.Select2 = select2;
 
             var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == Id);
 

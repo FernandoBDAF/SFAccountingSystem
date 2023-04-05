@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using SFAccountingSystem;
-using SFAccountingSystem.Services;
+using SFAccountingSystem.Core;
+using SFAccountingSystem.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

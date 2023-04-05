@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SFAccountingSystem.Services;
-using SFAccountingSystem.ViewMoldes;
+using SFAccountingSystem.Core.Services;
+using SFAccountingSystem.Core.ViewModels;
 
 namespace SFAccountingSystem.Controllers
 {

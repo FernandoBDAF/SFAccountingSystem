@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SFAccountingSystem.Enums;
-using SFAccountingSystem.Models;
+using SFAccountingSystem.Core;
+using SFAccountingSystem.Core.Enums;
+using SFAccountingSystem.Core.Models;
 
 namespace SFAccountingSystem.Controllers
 {
