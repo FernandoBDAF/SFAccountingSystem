@@ -1,0 +1,48 @@
+﻿@model List<RecordOFX>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="mb-4">
+                @Html.Raw(ViewData["SubTitle"])
+            </h3>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" id="Ofx" name="Ofx" required />
+                <input type="submit" class="btn btn-success" value="Enviar" />
+            </form>
+            <hr />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Details
+
+                        </th>
+                        <th>
+                            Value
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Date.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.Details
+                            </td>
+                            <td>
+                                @item.Value.ToString("c")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>    

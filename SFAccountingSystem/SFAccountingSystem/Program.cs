@@ -11,7 +11,8 @@ builder.Services.AddDbContext<DataContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
     o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
-builder.Services.AddScoped<OfxService>();
+builder.Services.AddScoped<OFXService>();
+builder.Services.AddScoped<RecordOFXService>();
 
 var app = builder.Build();
 

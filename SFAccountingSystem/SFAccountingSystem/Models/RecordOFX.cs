@@ -5,6 +5,15 @@ namespace SFAccountingSystem.Models
 {
     public class RecordOFX : BaseModel
     {
+        public RecordOFX() { }
+
+        public RecordOFX(TransactionOFX transaction)
+        {
+            Value = transaction.Value;
+            Details = transaction.Description;
+            Date = transaction.Date.DateTime;
+        }
+
         public DateTime Date { get; set; }
 
         public string? Details { get; set; }

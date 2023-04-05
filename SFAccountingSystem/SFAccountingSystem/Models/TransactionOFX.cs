@@ -2,9 +2,9 @@ using System.Xml.Linq;
 
 namespace SFAccountingSystem.Models
 {
-    public class RowOFX
+    public class TransactionOFX
     {
-        public RowOFX(XElement transaction)
+        public TransactionOFX(XElement transaction)
         {
             Value = decimal.Parse(transaction.Element("TRNAMT")
                                              .Value

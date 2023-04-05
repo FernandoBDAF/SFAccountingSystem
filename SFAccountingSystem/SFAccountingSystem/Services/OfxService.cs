@@ -4,15 +4,15 @@ using System.Xml.Linq;
 
 namespace SFAccountingSystem.Services
 {
-    public class OfxService
+    public class OFXService
     {
-        public OfxService()
+        public OFXService()
         {
         }
 
-        public List<RowOFX> Process(IFormFile file)
+        public List<TransactionOFX> Process(IFormFile file)
         {
-            var list = new List<RowOFX>();
+            var list = new List<TransactionOFX>();
 
             if (file != null)
             {
@@ -20,7 +20,7 @@ namespace SFAccountingSystem.Services
 
                 foreach (var transaction in doc.Descendants("STMTTRN"))
                 {
-                    list.Add(new RowOFX(transaction));
+                    list.Add(new TransactionOFX(transaction));
                 }
             }
 

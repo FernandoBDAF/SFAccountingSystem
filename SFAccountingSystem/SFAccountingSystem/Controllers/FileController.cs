@@ -6,9 +6,9 @@ namespace SFAccountingSystem.Controllers
 {
     public class FileController : Controller
     {
-        private readonly OfxService _ofxService;
+        private readonly OFXService _ofxService;
 
-        public FileController(OfxService ofxService)
+        public FileController(OFXService ofxService)
         {
             _ofxService = ofxService;
         }
