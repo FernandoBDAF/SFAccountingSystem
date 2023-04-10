@@ -14,6 +14,7 @@ builder.Services.AddDbContext<DataContext>(option =>
 builder.Services.AddScoped<OFXService>();
 builder.Services.AddScoped<RecordOFXService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<RecordOFXSubGroupService>();
 
 var app = builder.Build();
 

@@ -1,4 +1,7 @@
-﻿@model RecordOFX
+﻿@using SFAccountingSystem.Core.Services;
+@model RecordOFX
+
+@inject RecordOFXSubGroupService recordOFXSubGroupService;
 
 <tr title="@(Model.ApprovedAt.HasValue ? Model.ApprovedAt.Value.ToString("dd/MM/yyyy"): "n/a")"
     class="@(Model.ApprovedAt.HasValue ? "approved-row": "analysed-row")">
@@ -29,9 +32,11 @@
     <td>
         @if (Model.Group.HasValue)
         {
+            var subGroups = new SelectList(await recordOFXSubGroupService.List(Model.Group.Value), "Id", "Description");
+
             <form method="post" action="RecordOFX/UpdateSubGroup">
                 <input type="hidden" asp-for="Id" />
-                <select class="form-control-sm" asp-for="SubGroupId" asp-items="ViewBag.Groups" required>
+                <select class="form-control-sm" asp-for="SubGroupId" asp-items="subGroups" required>
                     <option></option>
                 </select>
                 <button class="btn btn-success btn-sm">U</button>
