@@ -32,6 +32,26 @@ namespace SFAccountingSystem.Core.Services
             await context.SaveChangesAsync();
         }
 
+        public async Task Approve(int id)
+        {
+            var record = await context.RecordOFX.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (record == null)
+                return;
+
+            if (record.ApprovedAt.HasValue)
+            {
+                record.ApprovedAt = null;
+
+            }
+            else if (!record.ApprovedAt.HasValue)
+            {
+                record.ApprovedAt = DateTime.Now;
+            }
+
+            await context.SaveChangesAsync();
+        }
+
         public override async Task<List<RecordOFX>> List()
         {
             return await context.RecordOFX

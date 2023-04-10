@@ -44,5 +44,12 @@ namespace SFAccountingSystem.Controllers
 
             return View(await _recordOFXService.List());
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Approve(int id)
+        {
+            await _recordOFXService.Approve(id);
+            return RedirectToAction("Index");
+        }
     }
 }
