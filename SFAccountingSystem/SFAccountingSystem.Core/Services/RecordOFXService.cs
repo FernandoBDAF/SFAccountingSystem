@@ -72,6 +72,18 @@ namespace SFAccountingSystem.Core.Services
             await context.SaveChangesAsync();
         }
 
+        public async Task UpdateSubGroup(RecordOFX model)
+        {
+            var record = await context.RecordOFX.FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            if (record == null)
+                return;
+
+            record.SubGroupId = model.SubGroupId;
+
+            await context.SaveChangesAsync();
+        }
+
         public async Task UpdateUser(RecordOFX model)
         {
             var record = await context.RecordOFX.FirstOrDefaultAsync(x => x.Id == model.Id);

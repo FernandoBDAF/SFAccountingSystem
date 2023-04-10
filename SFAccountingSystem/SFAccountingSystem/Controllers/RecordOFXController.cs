@@ -70,5 +70,12 @@ namespace SFAccountingSystem.Controllers
             await _recordOFXService.UpdateUser(model);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateSubGroup(RecordOFX model)
+        {
+            await _recordOFXService.UpdateSubGroup(model);
+            return RedirectToAction("Index");
+        }
     }
 }
