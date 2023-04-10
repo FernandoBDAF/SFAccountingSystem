@@ -4,6 +4,7 @@ using SFAccountingSystem.Core.Enums;
 using SFAccountingSystem.Core.Models;
 using SFAccountingSystem.Core.Services;
 using SFAccountingSystem.Core.ViewModels;
+using System.Globalization;
 
 namespace SFAccountingSystem.Controllers
 {
@@ -19,7 +20,7 @@ namespace SFAccountingSystem.Controllers
             _userService = userService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? Month = null, int? Year = null, RecordOFXBank? Bank = null)
         {
             ViewBag.Banks = new SelectList(Enum.GetValues(typeof(RecordOFXBank))
                                                 .Cast<RecordOFXBank>()
@@ -37,10 +38,26 @@ namespace SFAccountingSystem.Controllers
                                                     Id = (int)x
                                                 }), "Id", "DisplayName");
 
+
+            ViewBag.Months = new SelectList((new CultureInfo("en-US")).DateTimeFormat.MonthNames
+                                        .Where(x => !string.IsNullOrEmpty(x))
+                                        .Select((x, i) => new
+                                        {
+                                            DisplayName = x,
+                                            Id = i + 1
+                                        }), "Id", "DisplayName");
+
             ViewBag.Users = new SelectList(await _userService.List(), "Id", "Name");
 
+            var filter = new RecordOFXFilter
+            {
+                Month = Month,
+                Year = Year,
+                Bank = Bank
+            };
+            ViewBag.Filter = filter;
 
-            return View(await _recordOFXService.List());
+            return View(await _recordOFXService.List(filter));
         }
 
         [HttpPost]

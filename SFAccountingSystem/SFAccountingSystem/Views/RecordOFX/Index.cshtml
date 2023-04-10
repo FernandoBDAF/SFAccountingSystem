@@ -14,6 +14,11 @@
                 <input type="submit" class="btn btn-success" value="Enviar" />
             </form>
             <hr />
+            @{
+                await Html.RenderPartialAsync("_PartialFilter", (RecordOFXFilter)ViewBag.Filter);
+            }
+
+            <hr />
             <table class="table">
                 <thead>
                     <tr>

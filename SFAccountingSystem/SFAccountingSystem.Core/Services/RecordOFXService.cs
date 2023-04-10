@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SFAccountingSystem.Core.Enums;
 using SFAccountingSystem.Core.Models;
+using SFAccountingSystem.Core.ViewModels;
 
 namespace SFAccountingSystem.Core.Services
 {
@@ -55,6 +56,17 @@ namespace SFAccountingSystem.Core.Services
         public override async Task<List<RecordOFX>> List()
         {
             return await context.RecordOFX
+                                .OrderBy(x => x.Date)
+                                .ThenByDescending(x => x.Value)
+                                .ToListAsync();
+        }
+
+        public async Task<List<RecordOFX>> List(RecordOFXFilter filter)
+        {
+            return await context.RecordOFX
+                                .Where(x => (!filter.Month.HasValue || x.Date.Month == filter.Month.Value)
+                                         && (!filter.Year.HasValue || x.Date.Year == filter.Year.Value)
+                                         && (!filter.Bank.HasValue || x.Bank == filter.Bank.Value))
                                 .OrderBy(x => x.Date)
                                 .ThenByDescending(x => x.Value)
                                 .ToListAsync();

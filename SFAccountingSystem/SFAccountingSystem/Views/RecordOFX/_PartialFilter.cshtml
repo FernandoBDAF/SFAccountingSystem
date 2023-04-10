@@ -1,0 +1,13 @@
+﻿@model RecordOFXFilter
+
+<form method="get">
+    Mês: <select asp-for="Month" asp-items="ViewBag.Months"><option></option></select>
+    Ano: <select asp-for="Year">
+        <option></option>
+        <option>2022</option>
+        <option>2023</option>
+        <option>2024</option>
+    </select>
+    Banco: <select asp-for="Bank" asp-items="ViewBag.Banks"><option></option></select>
+    <input type="submit" class="btn btn-success btn-sm" value="Filtrar" />
+</form>
