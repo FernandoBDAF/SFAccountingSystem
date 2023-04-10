@@ -48,50 +48,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr title="@(item.ApprovedAt.HasValue ? item.ApprovedAt.Value.ToString("dd/MM/yyyy"): "n/a")"
-                            class="@(item.ApprovedAt.HasValue ? "approved-row": "analysed-row")">
-                            <td>
-                                @item.Date.ToString("dd/MM/yyyy")
-                            </td>
-                            <td>
-                                @item.Value.ToString("c")
-                            </td>
-                            <td>
-                                @(item.User != null ? item.User.Name : "N/A")
-                            </td>
-                            <td>
-                                @(item.Group != null ? item.Group.ToName<RecordOFXGroup>() : "N/A")
-                            </td>
-                            <td>
-                                @(item.RecordOFXSubGroup != null ? item.RecordOFXSubGroup.Description : "N/A")
-                            </td>
-                            <td>
-                                @item.Details
-                            </td>
-                            <td>
-                                @(item.Bank.ToName<RecordOFXBank>())
-                            </td>
-                            <td>
-                                @(item.Type.ToName<RecordOFXType>())
-                            </td>
-                            <td>
-                                @if (!item.ApprovedAt.HasValue)
-                                {
-                                    <a onclick="return confirm('Are you sure?')"
-                                       class="btn btn-warning btn-sm"
-                                        asp-action="Approve"
-                                        asp-route-id="@item.Id">Approve</a>
-                                }
-                                else
-                                {
-
-                                    <a onclick="return confirm('Are you sure?')"
-                                       class="btn btn-danger btn-sm"
-                                       asp-action="Approve"
-                                       asp-route-id="@item.Id">Undo</a>
-                                }
-                            </td>
-                        </tr>
+                        await Html.RenderPartialAsync("_PartialRow", item);
                     }
                 </tbody>
             </table>

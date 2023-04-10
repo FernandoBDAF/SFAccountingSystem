@@ -59,5 +59,29 @@ namespace SFAccountingSystem.Core.Services
                                 .ThenByDescending(x => x.Value)
                                 .ToListAsync();
         }
+
+        public async Task UpdateGroup(RecordOFX model)
+        {
+            var record = await context.RecordOFX.FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            if (record == null)
+                return;
+
+            record.Group = model.Group;
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateUser(RecordOFX model)
+        {
+            var record = await context.RecordOFX.FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            if (record == null)
+                return;
+
+            record.UserId = model.UserId;
+
+            await context.SaveChangesAsync();
+        }
     }
 }

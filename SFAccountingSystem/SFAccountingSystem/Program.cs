@@ -13,6 +13,7 @@ builder.Services.AddDbContext<DataContext>(option =>
 
 builder.Services.AddScoped<OFXService>();
 builder.Services.AddScoped<RecordOFXService>();
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 
