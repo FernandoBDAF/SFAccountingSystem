@@ -21,11 +21,20 @@
                             Date
                         </th>
                         <th>
-                            Details
-
+                            Value
                         </th>
                         <th>
-                            Value
+                            User
+                        </th>
+                        <th>
+                            Group
+                        </th>
+                        <th>
+                            SubGroup
+                        </th>
+                        <th>
+                            Details
+
                         </th>
                         <th>
                             Bank
@@ -43,10 +52,19 @@
                                 @item.Date.ToString("dd/MM/yyyy")
                             </td>
                             <td>
-                                @item.Details
+                                @item.Value.ToString("c")
                             </td>
                             <td>
-                                @item.Value.ToString("c")
+                                @(item.User != null ? item.User.Name : "S/A")
+                            </td>
+                            <td>
+                                @(item.Group != null ? item.Group.ToName<RecordOFXGroup>() : "S/A")
+                            </td>
+                            <td>
+                                @(item.RecordOFXSubGroup != null ? item.RecordOFXSubGroup.Description : "S/A")
+                            </td>
+                            <td>
+                                @item.Details
                             </td>
                             <td>
                                 @(item.Bank.ToName<RecordOFXBank>())
