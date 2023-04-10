@@ -68,6 +68,7 @@ namespace SFAccountingSystem.Core.Services
                 return;
 
             record.Group = model.Group;
+            record.SubGroupId = null;
 
             await context.SaveChangesAsync();
         }
