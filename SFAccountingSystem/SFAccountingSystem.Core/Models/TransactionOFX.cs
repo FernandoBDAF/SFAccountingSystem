@@ -21,7 +21,7 @@ namespace SFAccountingSystem.Core.Models
                                                         .Substring(0, 8), "yyyyMMdd", null);
 
 
-            FITID = int.Parse(transaction.Element("FITID").Value.Replace("</FITID>", ""));
+            FITID = transaction.Element("FITID").Value.Replace("</FITID>", "");
 
             Type = transaction.Element("TRNTYPE").Value.Replace("</TRNTYPE>", "");
         }
@@ -32,7 +32,7 @@ namespace SFAccountingSystem.Core.Models
 
         public DateTimeOffset Date { get; set; } = new DateTimeOffset();
 
-        public int FITID { get; set; }
+        public string FITID { get; set; }
 
         public string Type { get; set; }
     }

@@ -51,7 +51,7 @@ namespace SFAccountingSystem.Core.Models
 
         public virtual RecordOFXSubGroup? RecordOFXSubGroup { get; set; }
 
-        public int FITID { get; set; }
+        public string FITID { get; set; }
 
         public DateTime? ApprovedAt { get; set; }
     }
