@@ -15,6 +15,7 @@ builder.Services.AddScoped<OFXService>();
 builder.Services.AddScoped<RecordOFXService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RecordOFXSubGroupService>();
+builder.Services.AddScoped<BalanceSheetService>();
 
 var app = builder.Build();
 

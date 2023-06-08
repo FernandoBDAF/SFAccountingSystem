@@ -1,0 +1,34 @@
+﻿@using SFAccountingSystem.Core.Enums
+@using SFAccountingSystem.Core.ViewModels
+
+<div class="row">
+    <div class="col-6">
+        <ul>
+            @foreach (var item in (List<BalanceSheetViewModel>)ViewBag.Incomes)
+            {
+                <li>
+                    @item.Name : @item.Value.ToString("c")
+                    @if (item.Children.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var chd in item.Children)
+                            {
+                                <li>@chd.Name : @chd.Value.ToString("c")</li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
+
+    </div>
+    <div class="col-6">
+        <ul>
+            <li>
+                <h1>Expense: $(0,00)</h1>
+                <ul>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

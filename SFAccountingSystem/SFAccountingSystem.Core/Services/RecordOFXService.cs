@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SFAccountingSystem.Core.Enums;
 using SFAccountingSystem.Core.Models;
 using SFAccountingSystem.Core.ViewModels;
+using System.Net.Mime;
 
 namespace SFAccountingSystem.Core.Services
 {
@@ -108,5 +109,13 @@ namespace SFAccountingSystem.Core.Services
 
             await context.SaveChangesAsync();
         }
+
+        public async Task<decimal> GetIncomeTotalValue() => await context.RecordOFX.Where(x => x.ApprovedAt.HasValue
+                                                                                               && (x.Group == RecordOFXGroup.Agency
+                                                                                                   || x.Group == RecordOFXGroup.Intermediation))
+                                                                                   .SumAsync(x => x.Value);
+        public async Task<decimal> GetGroupTotalValue(RecordOFXGroup group) => await context.RecordOFX.Where(x => x.ApprovedAt.HasValue
+                                                                                                                    && x.Group == group)
+                                                                                                      .SumAsync(x => x.Value);
     }
 }
