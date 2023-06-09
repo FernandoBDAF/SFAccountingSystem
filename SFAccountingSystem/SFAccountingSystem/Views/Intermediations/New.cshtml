@@ -1,0 +1,70 @@
+﻿@model Intermediation
+
+@{
+    ViewData["Title"] = "Register a intermediation";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="mb-4 text-center">@ViewData["Title"]</h1>
+            <form method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label class="form-label" for="Group">Client</label>
+                    <select class="form-control" id="UserId" asp-for="UserId" asp-items="ViewBag.Users" required>
+                        <option></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Description">Intermediations</label>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    Data
+                                </th>
+                                <th>
+                                    User
+                                </th>
+                                <th>
+                                    Value
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in (List<RecordOFX>)ViewBag.RecordOfxs)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="RecordOfxIds" checked value="@item.Id" />
+                                    </td>
+                                    <td>
+                                        @item.Date.ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td>
+                                        @if (item.User != null)
+                                        {
+                                            <span>
+                                                @item.User.Name
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.Value.ToString("c")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mb-3">
+                    <input class="btn btn-success w-100" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
