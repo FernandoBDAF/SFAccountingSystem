@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SFAccountingSystem.Core;
 
@@ -11,9 +12,11 @@ using SFAccountingSystem.Core;
 namespace SFAccountingSystem.Core.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230612195058_add-null-InvoiceUserIds")]
+    partial class addnullInvoiceUserIds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,45 +54,6 @@ namespace SFAccountingSystem.Core.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Intermediation");
-                });
-
-            modelBuilder.Entity("SFAccountingSystem.Core.Models.Invoice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("IntermediationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NrNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Value")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IntermediationId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("SFAccountingSystem.Core.Models.RecordOFX", b =>
@@ -224,23 +188,6 @@ namespace SFAccountingSystem.Core.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SFAccountingSystem.Core.Models.Invoice", b =>
-                {
-                    b.HasOne("SFAccountingSystem.Core.Models.Intermediation", "Intermediation")
-                        .WithMany("Invoices")
-                        .HasForeignKey("IntermediationId");
-
-                    b.HasOne("SFAccountingSystem.Core.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Intermediation");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("SFAccountingSystem.Core.Models.RecordOFX", b =>
                 {
                     b.HasOne("SFAccountingSystem.Core.Models.Intermediation", "Intermediation")
@@ -273,8 +220,6 @@ namespace SFAccountingSystem.Core.Migrations
 
             modelBuilder.Entity("SFAccountingSystem.Core.Models.Intermediation", b =>
                 {
-                    b.Navigation("Invoices");
-
                     b.Navigation("RecordsOFXes");
                 });
 

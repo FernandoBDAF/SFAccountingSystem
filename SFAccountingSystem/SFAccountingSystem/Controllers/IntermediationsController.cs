@@ -47,7 +47,7 @@ namespace SFAccountingSystem.Controllers
         public async Task<IActionResult> View(int id, Intermediation model)
         {
             await _intermediationsService.CreateInvoice(model);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Invoices");
         }
 
         public async Task<IActionResult> Delete(int id)

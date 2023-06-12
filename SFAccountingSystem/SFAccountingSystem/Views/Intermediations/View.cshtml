@@ -60,7 +60,7 @@
                         </table>
 
                         <h5>
-                            <input type="checkbox" name="UserIds" value="@item.First().Id" checked />
+                            <input type="checkbox" name="UserIds" value="@item.First().UserId" checked />
                             @item.First().User.Name: @item.ToList().Sum(x => x.Value > 0 ? x.Value : decimal.Negate(x.Value)).ToString("c")
                         </h5>
 

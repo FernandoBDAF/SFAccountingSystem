@@ -7,8 +7,12 @@ namespace SFAccountingSystem.Core.Services
 {
     public class IntermediationsService : BaseService<Intermediation>
     {
-        public IntermediationsService(DataContext context) : base(context)
+        private readonly InvoicesService _invoicesService;
+
+        public IntermediationsService(DataContext context,
+                                      InvoicesService invoicesService) : base(context)
         {
+            _invoicesService = invoicesService;
         }
 
         public override async Task<List<Intermediation>> List()
@@ -73,11 +77,14 @@ namespace SFAccountingSystem.Core.Services
         {
             var existing = await context.Intermediation
                                         .FirstOrDefaultAsync(x => x.Id == model.Id);
+            if (existing != null)
+            {
+                existing.Value = model.Value;
+                existing.InvoiceUserIds = JsonConvert.SerializeObject(model.UserIds);
+                await context.SaveChangesAsync();
 
-            existing.Value = model.Value;
-            existing.InvoiceUserIds = JsonConvert.SerializeObject(model.UserIds);
-
-            await context.SaveChangesAsync();
+                await _invoicesService.Add(existing);
+            }
         }
     }
 }

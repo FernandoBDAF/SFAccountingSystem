@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq.Expressions;
 
 namespace SFAccountingSystem.Core.Models
 {
@@ -18,17 +19,11 @@ namespace SFAccountingSystem.Core.Models
         [Precision(18, 2)]
         public decimal Value { get; set; }
 
-        public string InvoiceUserIds { get; set; }
+        public string? InvoiceUserIds { get; set; }
 
         [NotMapped]
         public List<int> UserIds { get; set; } = new List<int>();
 
-        public decimal Total
-        {
-            get
-            {
-                return decimal.Zero;
-            }
-        }
+        public virtual ICollection<Invoice> Invoices { get; set; } = new HashSet<Invoice>();
     }
 }

@@ -26,5 +26,6 @@ namespace SFAccountingSystem.Core
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Invoice> Invoice { get; set; }
     }
 }
