@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SFAccountingSystem.Core;
 
@@ -11,9 +12,11 @@ using SFAccountingSystem.Core;
 namespace SFAccountingSystem.Core.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230612202244_ChangeNullDate")]
+    partial class ChangeNullDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,9 +64,6 @@ namespace SFAccountingSystem.Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("ApprovedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -79,9 +79,6 @@ namespace SFAccountingSystem.Core.Migrations
                     b.Property<string>("NrNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RecordOfxId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -92,8 +89,6 @@ namespace SFAccountingSystem.Core.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IntermediationId");
-
-                    b.HasIndex("RecordOfxId");
 
                     b.HasIndex("UserId");
 
@@ -238,10 +233,6 @@ namespace SFAccountingSystem.Core.Migrations
                         .WithMany("Invoices")
                         .HasForeignKey("IntermediationId");
 
-                    b.HasOne("SFAccountingSystem.Core.Models.RecordOFX", "RecordOfx")
-                        .WithMany()
-                        .HasForeignKey("RecordOfxId");
-
                     b.HasOne("SFAccountingSystem.Core.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -249,8 +240,6 @@ namespace SFAccountingSystem.Core.Migrations
                         .IsRequired();
 
                     b.Navigation("Intermediation");
-
-                    b.Navigation("RecordOfx");
 
                     b.Navigation("User");
                 });

@@ -3,16 +3,21 @@ using Microsoft.EntityFrameworkCore;
 using SFAccountingSystem.Core.Enums;
 using SFAccountingSystem.Core.Models;
 using SFAccountingSystem.Core.ViewModels;
+using System.Net.Mime;
 
 namespace SFAccountingSystem.Core.Services
 {
     public class RecordOFXService : BaseService<RecordOFX>
     {
         private readonly OFXService _ofxService;
+        private readonly InvoicesService _invoicesService;
 
-        public RecordOFXService(DataContext context, OFXService oFXService) : base(context)
+        public RecordOFXService(DataContext context,
+                                OFXService oFXService,
+                                InvoicesService invoicesService) : base(context)
         {
             _ofxService = oFXService;
+            _invoicesService = invoicesService;
         }
 
         public async Task Add(IFormFile file, RecordOFXBank bank)
@@ -43,14 +48,18 @@ namespace SFAccountingSystem.Core.Services
             if (record.ApprovedAt.HasValue)
             {
                 record.ApprovedAt = null;
+                await context.SaveChangesAsync();
 
+                await _invoicesService.Remove(record);
             }
             else if (!record.ApprovedAt.HasValue)
             {
                 record.ApprovedAt = DateTime.Now;
+                await context.SaveChangesAsync();
+
+                await _invoicesService.Add(record);
             }
 
-            await context.SaveChangesAsync();
         }
 
         public override async Task<List<RecordOFX>> List()
@@ -108,5 +117,13 @@ namespace SFAccountingSystem.Core.Services
 
             await context.SaveChangesAsync();
         }
+
+        public async Task<decimal> GetIncomeTotalValue() => await context.RecordOFX.Where(x => x.ApprovedAt.HasValue
+                                                                                               && (x.Group == RecordOFXGroup.Agency
+                                                                                                   || x.Group == RecordOFXGroup.Intermediation))
+                                                                                   .SumAsync(x => x.Value);
+        public async Task<decimal> GetGroupTotalValue(RecordOFXGroup group) => await context.RecordOFX.Where(x => x.ApprovedAt.HasValue
+                                                                                                                    && x.Group == group)
+                                                                                                      .SumAsync(x => x.Value);
     }
 }

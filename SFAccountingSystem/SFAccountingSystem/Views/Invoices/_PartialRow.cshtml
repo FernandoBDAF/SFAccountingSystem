@@ -1,0 +1,65 @@
+﻿@model Invoice
+
+<tr title="@(Model.ApprovedAt.HasValue ? Model.ApprovedAt.Value.ToString("dd/MM/yyyy"): "n/a")"
+    class="@(Model.ApprovedAt.HasValue ? "approved-row": "analysed-row")">
+    <td>
+        @if (Model.IntermediationId.HasValue)
+        {
+            <span>Intermediation</span>
+        }
+        else
+        {
+            <span>Agency</span>
+        }
+    </td>
+    <td>
+        @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+    </td>
+    <td>
+        <form method="post" action="Invoices/UpdateDate">
+            <input type="hidden" asp-for="Id" />
+            <input class="form-control-sm" type="date" asp-for="Date" required />
+            <button class="btn btn-success btn-sm">U</button>
+        </form>
+    </td>
+    <td>
+        <form method="post" action="Invoices/UpdateUser">
+            <input type="hidden" asp-for="Id" />
+            <select class="form-control-sm" asp-for="UserId" asp-items="ViewBag.Users" required>
+                <option></option>
+            </select>
+            <button class="btn btn-success btn-sm">U</button>
+        </form>
+    </td>
+    <td>
+        <form method="post" action="Invoices/UpdateValue">
+            <input type="hidden" asp-for="Id" />
+            <input class="form-control-sm" asp-for="Value" required />
+            <button class="btn btn-success btn-sm">U</button>
+        </form>
+    </td>
+    <td>
+        <form method="post" action="Invoices/UpdateNrNumber">
+            <input type="hidden" asp-for="Id" />
+            <input class="form-control-sm" asp-for="NrNumber" required />
+            <button class="btn btn-success btn-sm">U</button>
+        </form>
+    </td>
+    <td>
+        @if (!Model.ApprovedAt.HasValue)
+        {
+            <a onclick="return confirm('Are you sure?')"
+               class="btn btn-warning btn-sm"
+               asp-action="Approve"
+               asp-route-id="@Model.Id">Approve</a>
+        }
+        else
+        {
+
+            <a onclick="return confirm('Are you sure?')"
+               class="btn btn-danger btn-sm"
+               asp-action="Approve"
+               asp-route-id="@Model.Id">Undo</a>
+        }
+    </td>
+</tr>

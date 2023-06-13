@@ -1,0 +1,41 @@
+﻿@model List<Intermediation>
+
+<div class="row">
+    <a class="btn btn-success" asp-area="" asp-controller="Intermediations" asp-action="New">New</a>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Data
+                    </th>
+                    <th>
+                        Registers count
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+                        <td>
+                            @item.RecordsOFXes.Count()
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-info" href="/intermediations/view/@item.Id">create invoice</a>
+                            <a class="btn btn-sm btn-danger" href="/intermediations/delete/@item.Id">delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

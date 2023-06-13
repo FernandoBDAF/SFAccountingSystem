@@ -1,0 +1,55 @@
+﻿@model List<Invoice>
+
+@*<div class="row">
+    <a class="btn btn-success" asp-area="" asp-controller="Intermediations" asp-action="New">New</a>
+</div>*@
+<div class="row">
+    <div class="col-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Data criação
+                    </th>
+                    <th>
+                        Data
+                    </th>
+                    <th>
+                        User
+                    </th>
+                    <th>
+                        Value
+                    </th>
+                    <th>
+                        Invoice Number
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    await Html.RenderPartialAsync("_PartialRow", item);
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Styles {
+    <style>
+        .analysed-row {
+            background-color: #f8d7da;
+        }
+
+        .approved-row {
+            background-color: #d4edda;
+        }
+    </style>
+}
