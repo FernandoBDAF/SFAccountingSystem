@@ -57,5 +57,53 @@ namespace SFAccountingSystem.Core.Services
 
             throw new Exception("Error!");
         }
+
+        public async Task UpdateUser(Invoice model)
+        {
+            var existing = await context.Invoice.FirstOrDefaultAsync(x => x.Id == model.Id);
+            existing.UserId = model.UserId;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateNrNumber(Invoice model)
+        {
+            var existing = await context.Invoice.FirstOrDefaultAsync(x => x.Id == model.Id);
+            existing.NrNumber = model.NrNumber;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateDate(Invoice model)
+        {
+            var existing = await context.Invoice.FirstOrDefaultAsync(x => x.Id == model.Id);
+            existing.Date = model.Date;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateValue(Invoice model)
+        {
+            var existing = await context.Invoice.FirstOrDefaultAsync(x => x.Id == model.Id);
+            existing.Value = model.Value;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task Approve(int id)
+        {
+            var obj = await context.Invoice.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (obj == null)
+                return;
+
+            if (obj.ApprovedAt.HasValue)
+            {
+                obj.ApprovedAt = null;
+
+            }
+            else if (!obj.ApprovedAt.HasValue)
+            {
+                obj.ApprovedAt = DateTime.Now;
+            }
+
+            await context.SaveChangesAsync();
+        }
     }
 }

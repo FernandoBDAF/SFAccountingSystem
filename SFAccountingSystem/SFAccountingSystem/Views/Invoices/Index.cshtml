@@ -23,33 +23,30 @@
                     <th>
                         Invoice Number
                     </th>
+                    <th>
+
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @item.CreatedAt.ToString("dd/MM/yyyy HH:mm")
-                        </td>
-                        <td>
-                            @if (item.Date.HasValue)
-                            {
-                                <span>@item.Date.Value.ToString("dd/MM/yyyy")</span>
-                            }
-                        </td>
-                        <td>
-                            @item.User.Name
-                        </td>
-                        <td>
-                            @item.Value.ToString("n2")
-                        </td>
-                        <th>
-                            @item.NrNumber
-                        </th>
-                    </tr>
+                    await Html.RenderPartialAsync("_PartialRow", item);
                 }
             </tbody>
         </table>
     </div>
 </div>
+
+
+@section Styles {
+    <style>
+        .analysed-row {
+            background-color: #f8d7da;
+        }
+
+        .approved-row {
+            background-color: #d4edda;
+        }
+    </style>
+}

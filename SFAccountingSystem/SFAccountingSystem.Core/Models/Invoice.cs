@@ -21,5 +21,7 @@ namespace SFAccountingSystem.Core.Models
 
         [Precision(18, 2)]
         public decimal Value { get; set; }
+
+        public DateTime? ApprovedAt { get; set; }
     }
 }
