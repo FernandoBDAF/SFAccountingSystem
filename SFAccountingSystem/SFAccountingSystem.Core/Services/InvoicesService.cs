@@ -15,6 +15,32 @@ namespace SFAccountingSystem.Core.Services
             return context.Invoice.Include(x => x.User).ToListAsync();
         }
 
+        public async Task Add(RecordOFX record)
+        {
+            var invoice = new Invoice
+            {
+                UserId = record.UserId.Value,
+                RecordOfxId = record.Id,
+                CreatedAt = DateTime.Now,
+                Value = record.Value
+            };
+
+            await context.Invoice.AddAsync(invoice);
+            await context.SaveChangesAsync();
+
+            return;
+        }
+
+        public async Task Remove(RecordOFX record)
+        {
+            var invoice = await context.Invoice.FirstOrDefaultAsync(x => x.RecordOfxId == record.Id);
+            if(invoice != null)
+            {
+                context.Invoice.Remove(invoice);
+                await context.SaveChangesAsync();
+            }
+        }
+
         public async Task Add(Intermediation intermediation)
         {
             if (intermediation != null

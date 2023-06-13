@@ -10,6 +10,11 @@ namespace SFAccountingSystem.Core.Models
 
         public virtual Intermediation? Intermediation { get; set; }
 
+        [ForeignKey("RecordOfx")]
+        public int? RecordOfxId { get; set; }
+
+        public virtual RecordOFX? RecordOfx { get; set; }
+
         public string? NrNumber { get; set; }
 
         [ForeignKey("User")]

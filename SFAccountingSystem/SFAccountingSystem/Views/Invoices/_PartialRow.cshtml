@@ -3,6 +3,16 @@
 <tr title="@(Model.ApprovedAt.HasValue ? Model.ApprovedAt.Value.ToString("dd/MM/yyyy"): "n/a")"
     class="@(Model.ApprovedAt.HasValue ? "approved-row": "analysed-row")">
     <td>
+        @if (Model.IntermediationId.HasValue)
+        {
+            <span>Intermediation</span>
+        }
+        else
+        {
+            <span>Agency</span>
+        }
+    </td>
+    <td>
         @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")
     </td>
     <td>
